@@ -5,7 +5,8 @@ import PlayerControls from '../components/PlayerControls';
 
 interface Message {
   name: String;
-  time: Number;
+  startTime: Number;
+  endTime: Number;
   words: String;
 }
 
@@ -26,13 +27,16 @@ const MessageScreen = () => {
 
     for (let i = 0; i < speakerPhrasesLength; i++) {
       for (let j = 0; j < numberOfSpeakers; j++) {
-        let obj: Message = {
+        const endTime =
+          time + messagesData.speakers[j].phrases[i].time + messagesData.pause;
+        const obj = {
           words: messagesData.speakers[j].phrases[i].words,
-          time,
+          startTime: time,
+          endTime: endTime,
           name: messagesData.speakers[j].name,
         };
 
-        time += messagesData.speakers[j].phrases[i].time + messagesData.pause;
+        time = endTime;
 
         result.push(obj);
       }
