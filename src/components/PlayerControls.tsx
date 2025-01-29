@@ -1,73 +1,52 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import Slider from '@react-native-community/slider';
-import SoundPlayer from 'react-native-sound-player';
+import useTranscriptPlayer from '../hooks/usePlayer.tsx';
 
-const PlayerControls = ({setCurrentTime, currentTime, sortedMessages}) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
-
-  // useEffect(() => {
-  //   try {
-  //     SoundPlayer.playAsset(require('../Assets/Audios/MessagesAudio.mp3'));
-  //     setIsPlaying(true);
-  //   } catch (e) {
-  //     console.log('Cannot play the audio file', e);
-  //   }
-
-  //   const interval = setInterval(() => {
-  //     if (isPlaying) {
-  //       SoundPlayer.getInfo().then(info => {
-  //         setCurrentTime(info.currentTime * 700);
-  //         setDuration(info.duration);
-  //       });
-  //     }
-  //   }, 100);
-
-  //   return () => clearInterval(interval);
-  // }, [isPlaying]);
-
-  const playAudio = () => {
-    try {
-      SoundPlayer.playAsset(require('../Assets/Audios/MessagesAudio.mp3')); // Replace with the actual audio URL
-      setIsPlaying(true);
-
-      // Highlight phrases in sync with playback
-      let elapsedTime = 0;
-      sortedMessages.map((phrase, index) => {
-        setTimeout(() => {
-          setCurrentTime(index);
-        }, elapsedTime + 1500);
-        elapsedTime += phrase.time;
-      });
-    } catch (error) {
-      console.error('Cannot play the sound file', error);
-    }
-  };
-
-  const pauseAudio = () => {
-    SoundPlayer.pause();
-    setIsPlaying(false);
-  };
+const PlayerControls = ({setCurrentIndex, currentIndex, sortedMessages}) => {
+  const {
+    addTrack,
+    play,
+    pause,
+    isPlaying,
+    isPlayerReady,
+    audioDuration,
+    audioPosition,
+    seekTo,
+    backward,
+    forward,
+  } = useTranscriptPlayer(sortedMessages);
+  useEffect(() => {
+    addTrack(require('../Assets/Audios/MessagesAudio.mp3'), 'transcript');
+  }, [addTrack]);
+  useEffect(() => {
+    //now I want to calculate the index from sortedMessages array depending on the audioPosition
+    console.log('audioPosition', audioPosition * 1000);
+    const index = sortedMessages.findIndex(
+      message => audioPosition * 1000 <= message.time,
+    );
+    console.log('index', index);
+    setCurrentIndex(index-1)
+  }, [audioPosition, audioDuration, sortedMessages]);
 
   return (
     <View>
-      <Slider
-        style={styles.slider}
-        value={currentTime}
-        onValueChange={value => {
-          console.log(value);
-        }}
-        minimumValue={0}
-        maximumValue={duration}
-        minimumTrackTintColor="#99BD01"
-        maximumTrackTintColor="#DAE4ED"
-        onSlidingComplete={value => {
-          console.log(value);
-        }}
-      />
+      {/*<Slider*/}
+      {/*  style={styles.slider}*/}
+      {/*  value={currentIndex}*/}
+      {/*  onValueChange={value => {*/}
+      {/*    console.log(value);*/}
+      {/*  }}*/}
+      {/*  minimumValue={0}*/}
+      {/*  maximumValue={duration}*/}
+      {/*  minimumTrackTintColor="#99BD01"*/}
+      {/*  maximumTrackTintColor="#DAE4ED"*/}
+      {/*  onSlidingComplete={value => {*/}
+      {/*    console.log(value);*/}
+      {/*  }}*/}
+      {/*/>*/}
       <View style={styles.container}>
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity activeOpacity={0.8} onPress={backward}>
           <Image
             source={require('../Assets/Images/backward.png')}
             style={styles.icons}
@@ -75,7 +54,7 @@ const PlayerControls = ({setCurrentTime, currentTime, sortedMessages}) => {
         </TouchableOpacity>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={isPlaying ? pauseAudio : playAudio}
+          onPress={isPlaying ? pause : play}
           style={styles.playAndPauseButton}>
           <Image
             source={
@@ -86,7 +65,7 @@ const PlayerControls = ({setCurrentTime, currentTime, sortedMessages}) => {
             style={styles.playAndPauseIcon}
           />
         </TouchableOpacity>
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity activeOpacity={0.8} onPress={forward}>
           <Image
             source={require('../Assets/Images/fast-forward.png')}
             style={styles.icons}

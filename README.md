@@ -1,4 +1,14 @@
+I disabled new architecture as it was crashing the app. until track player fixes it we have to keep it disabled.
+
+
+original provided json file had different time. so I modified it a bit
+############
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+
+
+
+
 
 # Getting Started
 

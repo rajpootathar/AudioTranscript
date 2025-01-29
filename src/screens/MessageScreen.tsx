@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {messagesData} from '../dataSets/MessagesData';
+import messagesData from '../dataSets/MessagesData.json';
 import PlayerControls from '../components/PlayerControls';
 
-interface Messages {
+interface Message {
   name: String;
   time: Number;
   words: String;
@@ -11,17 +11,33 @@ interface Messages {
 
 const MessageScreen = () => {
   const [sortedMessages, setSortedMessages] = useState([]);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
+  //sort messages for list and player
   const getSortMessages = async () => {
-    const totalMessages: Messages[] = [];
-    messagesData.speakers.map(speaker => {
-      speaker.phrases.map(message => {
-        totalMessages.push({name: speaker.name, ...message});
-      });
-    });
+    const numberOfSpeakers = messagesData.speakers.length;
+    const speakerPhrasesLength = messagesData.speakers[0].phrases.length;
+    const totalMessages: Message[] = [];
+    let time = 0;
+    let result: Message[] = [];
+    // Collect all phrases with their speaker and time
 
-    const result = totalMessages.sort((a, b) => a.time - b.time);
+    //count number of phrases for each speaker
+
+    for (let i = 0; i < speakerPhrasesLength; i++) {
+      for (let j = 0; j < numberOfSpeakers; j++) {
+        let obj: Message = {
+          words: messagesData.speakers[j].phrases[i].words,
+          time,
+          name: messagesData.speakers[j].name,
+        };
+
+        time += messagesData.speakers[j].phrases[i].time + messagesData.pause;
+
+        result.push(obj);
+      }
+    }
+    console.log(result);
     setSortedMessages(result);
   };
 
@@ -32,8 +48,8 @@ const MessageScreen = () => {
   }, [sortedMessages]);
 
   const renderItem = ({item, index}) => {
-    console.log('currentTime', currentTime);
-    const isHighlighted = currentTime === index;
+    console.log('currentTime', currentIndex);
+    const isHighlighted = currentIndex === index;
     return (
       <View style={item.name === 'John' ? styles.john : styles.jack}>
         <Text
@@ -62,8 +78,8 @@ const MessageScreen = () => {
         renderItem={renderItem}
       />
       <PlayerControls
-        currentTime={currentTime}
-        setCurrentTime={setCurrentTime}
+        currentIndex={currentIndex}
+        setCurrentIndex={setCurrentIndex}
         sortedMessages={sortedMessages}
       />
     </View>
