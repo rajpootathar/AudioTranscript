@@ -11,6 +11,7 @@ interface Messages {
 
 const MessageScreen = () => {
   const [sortedMessages, setSortedMessages] = useState([]);
+  const [currentTime, setCurrentTime] = useState(0);
 
   const getSortMessages = async () => {
     const totalMessages: Messages[] = [];
@@ -30,11 +31,25 @@ const MessageScreen = () => {
     }
   }, [sortedMessages]);
 
-  const renderItem = ({item}) => {
+  const renderItem = ({item, index}) => {
+    console.log('currentTime', currentTime);
+    const isHighlighted = currentTime === index;
     return (
       <View style={item.name === 'John' ? styles.john : styles.jack}>
-        <Text style={styles.speakerName}>{item.name}</Text>
-        <Text style={styles.speakerMessage}>{item.words}</Text>
+        <Text
+          style={[
+            styles.speakerName,
+            isHighlighted && styles.highlightSpeakerName,
+          ]}>
+          {item.name}
+        </Text>
+        <Text
+          style={[
+            styles.speakerMessage,
+            isHighlighted && styles.highlightSpeakerMessage,
+          ]}>
+          {item.words}
+        </Text>
       </View>
     );
   };
@@ -46,7 +61,11 @@ const MessageScreen = () => {
         data={sortedMessages}
         renderItem={renderItem}
       />
-      <PlayerControls />
+      <PlayerControls
+        currentTime={currentTime}
+        setCurrentTime={setCurrentTime}
+        sortedMessages={sortedMessages}
+      />
     </View>
   );
 };
@@ -67,6 +86,17 @@ const styles = StyleSheet.create({
   jack: {
     alignItems: 'flex-end',
     marginTop: '5%',
+  },
+  highlightSpeakerName: {
+    color: 'orange',
+    fontWeight: '900',
+    fontSize: 18,
+  },
+  highlightSpeakerMessage: {
+    borderColor: 'orange',
+    fontSize: 19,
+    color: 'orange',
+    fontWeight: '900',
   },
   speakerName: {
     fontSize: 16,

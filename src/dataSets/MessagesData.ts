@@ -6,15 +6,15 @@ export const messagesData = {
       phrases: [
         {
           words: 'this is one phrase.',
-          time: 1474,
+          time: 1214, // 1474
         },
         {
           words: 'now the second phrase.',
-          time: 1667,
+          time: 1486, // 1667
         },
         {
           words: 'end with last phrase.',
-          time: 1214,
+          time: 1667, // 1214
         },
       ],
     },
@@ -23,15 +23,15 @@ export const messagesData = {
       phrases: [
         {
           words: 'another speaker here.',
-          time: 1570,
+          time: 1474, // 1570
         },
         {
           words: 'saying her second phrase.',
-          time: 1989,
+          time: 1570, // 1989
         },
         {
           words: 'and eventually finishing up.',
-          time: 1486,
+          time: 1989, // 1486
         },
       ],
     },
