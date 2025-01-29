@@ -68,16 +68,27 @@ const useTranscriptPlayer = (sortedTranscript: Messages[]) => {
   async function backward() {
     //sortedTranscript Message has startTIme and EndTime in milliseconds
     //“Rewind"	- go to the beginning of the current (or if already, then previous) phrase
-
-    const previousPhrase = sortedTranscript.find(
+    const pos = position * 1000;
+    const startOfCurrentPhrase = sortedTranscript.find(
       phrase =>
-        phrase.startTime < position * 1000 && phrase.endTime > position * 1000,
+        phrase.startTime + 300 < pos && //300ms buffer
+        phrase.endTime > pos,
     );
-    console.log('previousPhrase', position * 1000, previousPhrase);
-    if (previousPhrase) {
-      await seekTo(previousPhrase.startTime / 1000);
+    console.log('previousPhrase', pos, startOfCurrentPhrase);
+    if (startOfCurrentPhrase) {
+      await seekTo(startOfCurrentPhrase.startTime / 1000);
     } else {
-      await seekTo(0);
+
+      const previousPhrase = sortedTranscript.reduce((last, phrase) => {
+        return (phrase.endTime < pos) ? phrase : last;
+      }, null);
+      if (previousPhrase) {
+        // If a previous phrase is found, seek to its start time
+        await seekTo(previousPhrase.startTime / 1000);
+      } else {
+        // If no previous phrase is not found, seek to the beginning
+        await seekTo(0);
+      }
     }
   }
 
