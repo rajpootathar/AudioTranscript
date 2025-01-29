@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import MessageScreen from './src/screens/MessageScreen';
+import MessageScreen from './screens/MessageScreen.tsx';
 
 function App(): React.JSX.Element {
   return (

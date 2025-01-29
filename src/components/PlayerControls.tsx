@@ -1,19 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
-import Slider from '@react-native-community/slider';
 import useTranscriptPlayer from '../hooks/usePlayer.tsx';
 import messagesData from '../dataSets/MessagesData.json';
 
-const PlayerControls = ({setCurrentIndex, currentIndex, sortedMessages}) => {
+// @ts-ignore
+const PlayerControls = ({setCurrentIndex,  sortedMessages}) => {
   const {
     addTrack,
     play,
     pause,
     isPlaying,
-    isPlayerReady,
     audioDuration,
     audioPosition,
-    seekTo,
     backward,
     forward,
   } = useTranscriptPlayer(sortedMessages);
@@ -24,7 +22,7 @@ const PlayerControls = ({setCurrentIndex, currentIndex, sortedMessages}) => {
     //now I want to calculate the index from sortedMessages array depending on the audioPosition
 
     const index = sortedMessages.findIndex(
-      message => audioPosition * 1000 <= message.endTime - messagesData.pause,
+        (message: { endTime: number; }) => audioPosition * 1000 <= message.endTime - messagesData.pause,
     );
     setCurrentIndex(index);
   }, [audioPosition, audioDuration, sortedMessages, setCurrentIndex]);

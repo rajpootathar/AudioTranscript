@@ -1,15 +1,14 @@
 //I am setting up trackplayer as a hook to play audio files and keep track of its progress
 
 import TrackPlayer, {
-  Event,
   State,
   usePlaybackState,
   useProgress,
 } from 'react-native-track-player';
 import {useEffect, useState} from 'react';
-import {Messages} from '../screens/MessageScreen';
+import {Message} from '../screens/MessageScreen';
 
-const useTranscriptPlayer = (sortedTranscript: Messages[]) => {
+const useTranscriptPlayer = (sortedTranscript: Message[]) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);
   const {position, duration} = useProgress(100);
   const playerState = usePlaybackState();
@@ -35,7 +34,7 @@ const useTranscriptPlayer = (sortedTranscript: Messages[]) => {
     }
   }
 
-  async function addTrack(pathToFile, title) {
+  async function addTrack(pathToFile: any, title: string) {
     await TrackPlayer.add([
       {
         id: '1',
@@ -51,7 +50,7 @@ const useTranscriptPlayer = (sortedTranscript: Messages[]) => {
     await TrackPlayer.pause();
   }
 
-  async function seekTo(time) {
+  async function seekTo(time: number) {
     await TrackPlayer.seekTo(time);
   }
   //forward to the next phrase in transcript in sortedTranscript
@@ -66,8 +65,6 @@ const useTranscriptPlayer = (sortedTranscript: Messages[]) => {
   }
   //backward to the previous phrase in transcript in sortedTranscript or seek to the beginning of the current phrase
   async function backward() {
-    //sortedTranscript Message has startTIme and EndTime in milliseconds
-    //“Rewind"	- go to the beginning of the current (or if already, then previous) phrase
     const pos = position * 1000;
     const startOfCurrentPhrase = sortedTranscript.find(
       phrase =>
@@ -79,6 +76,7 @@ const useTranscriptPlayer = (sortedTranscript: Messages[]) => {
       await seekTo(startOfCurrentPhrase.startTime / 1000);
     } else {
 
+      // @ts-ignore
       const previousPhrase = sortedTranscript.reduce((last, phrase) => {
         return (phrase.endTime < pos) ? phrase : last;
       }, null);

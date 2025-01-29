@@ -3,11 +3,11 @@ import {FlatList, StyleSheet, Text, View} from 'react-native';
 import messagesData from '../dataSets/MessagesData.json';
 import PlayerControls from '../components/PlayerControls';
 
-interface Message {
-  name: String;
-  startTime: Number;
-  endTime: Number;
-  words: String;
+export interface Message {
+  name: string;
+  startTime: number;
+  endTime: number;
+  words: string;
 }
 
 const MessageScreen = () => {
@@ -18,7 +18,6 @@ const MessageScreen = () => {
   const getSortMessages = async () => {
     const numberOfSpeakers = messagesData.speakers.length;
     const speakerPhrasesLength = messagesData.speakers[0].phrases.length;
-    const totalMessages: Message[] = [];
     let time = 0;
     let result: Message[] = [];
     // Collect all phrases with their speaker and time
@@ -27,8 +26,7 @@ const MessageScreen = () => {
 
     for (let i = 0; i < speakerPhrasesLength; i++) {
       for (let j = 0; j < numberOfSpeakers; j++) {
-        const endTime =
-          time + messagesData.speakers[j].phrases[i].time + messagesData.pause;
+        const endTime = time + messagesData.speakers[j].phrases[i].time;
         const obj = {
           words: messagesData.speakers[j].phrases[i].words,
           startTime: time,
@@ -36,12 +34,13 @@ const MessageScreen = () => {
           name: messagesData.speakers[j].name,
         };
 
-        time = endTime;
+        time = endTime + messagesData.pause;
 
         result.push(obj);
       }
     }
     console.log(result);
+    // @ts-ignore
     setSortedMessages(result);
   };
 
@@ -51,6 +50,7 @@ const MessageScreen = () => {
     }
   }, [sortedMessages]);
 
+  // @ts-ignore
   const renderItem = ({item, index}) => {
     console.log('currentTime', currentIndex);
     const isHighlighted = currentIndex === index;
@@ -82,7 +82,6 @@ const MessageScreen = () => {
         renderItem={renderItem}
       />
       <PlayerControls
-        currentIndex={currentIndex}
         setCurrentIndex={setCurrentIndex}
         sortedMessages={sortedMessages}
       />
