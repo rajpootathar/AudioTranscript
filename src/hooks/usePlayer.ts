@@ -6,7 +6,7 @@ import TrackPlayer, {
   useProgress,
 } from 'react-native-track-player';
 import {useEffect, useState} from 'react';
-import {Message} from '../screens/MessageScreen';
+import {Message} from '../types';
 
 const useTranscriptPlayer = (sortedTranscript: Message[]) => {
   const [isPlayerReady, setIsPlayerReady] = useState(false);

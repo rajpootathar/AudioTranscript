@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
-import useTranscriptPlayer from '../hooks/usePlayer.tsx';
+import useTranscriptPlayer from '../hooks/usePlayer.ts';
 import messagesData from '../dataSets/MessagesData.json';
 import ProgressBar from './ProgressBar.tsx';
 
