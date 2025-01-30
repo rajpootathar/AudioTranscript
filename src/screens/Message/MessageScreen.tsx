@@ -75,11 +75,13 @@ const styles = StyleSheet.create({
   speakerName: {
     fontSize: 16,
     fontWeight: '700',
+    color: 'black',
   },
   speakerMessage: {
     fontSize: 18,
     fontWeight: '700',
     borderWidth: 2,
+    color: 'black',
     borderRadius: 10,
     paddingLeft: '2%',
     padding: '3%',
