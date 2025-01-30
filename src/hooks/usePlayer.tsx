@@ -35,6 +35,10 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
   }
 
   async function addTrack(pathToFile: any, title: string) {
+    if (!isPlayerReady) {
+      console.warn('Player is not ready yet.');
+      return;
+    }
     await TrackPlayer.add([
       {
         id: '1',
@@ -44,13 +48,25 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
     ]);
   }
   async function play() {
+    if (!isPlayerReady) {
+      console.warn('Player is not ready yet.');
+      return;
+    }
     await TrackPlayer.play();
   }
   async function pause() {
+    if (!isPlayerReady) {
+      console.warn('Player is not ready yet.');
+      return;
+    }
     await TrackPlayer.pause();
   }
 
   async function seekTo(time: number) {
+    if (!isPlayerReady) {
+      console.warn('Player is not ready yet.');
+      return;
+    }
     await TrackPlayer.seekTo(time);
   }
   //forward to the next phrase in transcript in sortedTranscript
@@ -75,10 +91,9 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
     if (startOfCurrentPhrase) {
       await seekTo(startOfCurrentPhrase.startTime / 1000);
     } else {
-
       // @ts-ignore
       const previousPhrase = sortedTranscript.reduce((last, phrase) => {
-        return (phrase.endTime < pos) ? phrase : last;
+        return phrase.endTime < pos ? phrase : last;
       }, null);
       if (previousPhrase) {
         // If a previous phrase is found, seek to its start time
