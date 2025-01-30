@@ -13,6 +13,7 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
   const {position, duration} = useProgress(100);
   const playerState = usePlaybackState();
   const isPlaying = playerState.state === State.Playing;
+
   //initialize the player
   useEffect(() => {
     setupPlayer().then(isSetup => {
@@ -21,6 +22,7 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
       }
     });
   }, []);
+
   async function setupPlayer() {
     let isSetup = false;
     try {
@@ -43,9 +45,11 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
       },
     ]);
   }
+
   async function play() {
     await TrackPlayer.play();
   }
+
   async function pause() {
     await TrackPlayer.pause();
   }
@@ -53,6 +57,7 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
   async function seekTo(time: number) {
     await TrackPlayer.seekTo(time);
   }
+
   //forward to the next phrase in transcript in sortedTranscript
   async function forward() {
     //sortedTransscript Message has startTIme and EndTime in milliseconds
@@ -63,6 +68,7 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
       await seekTo(nextPhrase.startTime / 1000);
     }
   }
+
   //backward to the previous phrase in transcript in sortedTranscript or seek to the beginning of the current phrase
   async function backward() {
     const pos = position * 1000;
@@ -71,14 +77,13 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
         phrase.startTime + 300 < pos && //300ms buffer
         phrase.endTime > pos,
     );
-    console.log('previousPhrase', pos, startOfCurrentPhrase);
+
     if (startOfCurrentPhrase) {
       await seekTo(startOfCurrentPhrase.startTime / 1000);
     } else {
-
       // @ts-ignore
       const previousPhrase = sortedTranscript.reduce((last, phrase) => {
-        return (phrase.endTime < pos) ? phrase : last;
+        return phrase.endTime < pos ? phrase : last;
       }, null);
       if (previousPhrase) {
         // If a previous phrase is found, seek to its start time
