@@ -37,10 +37,7 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
   }
 
   async function addTrack(pathToFile: any, title: string) {
-    if (!isPlayerReady) {
-      console.warn('Player is not ready yet.');
-      return;
-    }
+    await setupPlayer();
     await TrackPlayer.add([
       {
         id: '1',
@@ -51,26 +48,17 @@ const useTranscriptPlayer = (sortedTranscript: Message[]) => {
   }
 
   async function play() {
-    if (!isPlayerReady) {
-      console.warn('Player is not ready yet.');
-      return;
-    }
+    await setupPlayer();
     await TrackPlayer.play();
   }
 
   async function pause() {
-    if (!isPlayerReady) {
-      console.warn('Player is not ready yet.');
-      return;
-    }
+    await setupPlayer();
     await TrackPlayer.pause();
   }
 
   async function seekTo(time: number) {
-    if (!isPlayerReady) {
-      console.warn('Player is not ready yet.');
-      return;
-    }
+    await setupPlayer();
     await TrackPlayer.seekTo(time);
   }
 

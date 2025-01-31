@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   highlightSpeakerMessage: {
     borderColor: 'orange',
-    fontSize: 19,
+    fontSize: 18,
     color: 'orange',
     fontWeight: '900',
   },

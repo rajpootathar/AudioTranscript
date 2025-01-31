@@ -9,10 +9,8 @@ import TrackPlayer from 'react-native-track-player';
 import {PlaybackService} from './src/services/PlaybackService';
 
 AppRegistry.registerComponent(app.name, () => App);
-// TrackPlayer.registerPlaybackService(() => require('./service'));
 
 TrackPlayer.registerPlaybackService(() => PlaybackService);
-
 if (typeof __DEV__ === 'undefined') {
   global.__DEV__ = process.env.NODE_ENV !== 'production';
 }
