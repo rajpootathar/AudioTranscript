@@ -1,10 +1,11 @@
 import React, {useEffect} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
-import useTranscriptPlayer from '../hooks/usePlayer.tsx';
+import useTranscriptPlayer from '../hooks/usePlayer.ts';
 import messagesData from '../dataSets/MessagesData.json';
+import ProgressBar from './ProgressBar.tsx';
 
 // @ts-ignore
-const PlayerControls = ({setCurrentIndex,  sortedMessages}) => {
+const PlayerControls = ({setCurrentIndex, sortedMessages}) => {
   const {
     addTrack,
     play,
@@ -15,34 +16,22 @@ const PlayerControls = ({setCurrentIndex,  sortedMessages}) => {
     backward,
     forward,
   } = useTranscriptPlayer(sortedMessages);
+
   useEffect(() => {
     addTrack(require('../Assets/Audios/MessagesAudio.mp3'), 'transcript');
   }, [addTrack]);
   useEffect(() => {
     //now I want to calculate the index from sortedMessages array depending on the audioPosition
-
     const index = sortedMessages.findIndex(
-        (message: { endTime: number; }) => audioPosition * 1000 <= message.endTime - messagesData.pause,
+      (message: {endTime: number}) =>
+        audioPosition * 1000 <= message.endTime - messagesData.pause,
     );
     setCurrentIndex(index);
   }, [audioPosition, audioDuration, sortedMessages, setCurrentIndex]);
 
   return (
     <View>
-      {/*<Slider*/}
-      {/*  style={styles.slider}*/}
-      {/*  value={currentIndex}*/}
-      {/*  onValueChange={value => {*/}
-      {/*    console.log(value);*/}
-      {/*  }}*/}
-      {/*  minimumValue={0}*/}
-      {/*  maximumValue={duration}*/}
-      {/*  minimumTrackTintColor="#99BD01"*/}
-      {/*  maximumTrackTintColor="#DAE4ED"*/}
-      {/*  onSlidingComplete={value => {*/}
-      {/*    console.log(value);*/}
-      {/*  }}*/}
-      {/*/>*/}
+      <ProgressBar position={audioPosition} duration={audioDuration} />
       <View style={styles.container}>
         <TouchableOpacity activeOpacity={0.8} onPress={backward}>
           <Image
@@ -74,15 +63,12 @@ const PlayerControls = ({setCurrentIndex,  sortedMessages}) => {
   );
 };
 const styles = StyleSheet.create({
-  slider: {
-    width: '100%',
-    height: 20,
-  },
   container: {
     flexDirection: 'row',
-    height: '13%',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: '5%',
+    marginBottom: '10%',
   },
   icons: {
     width: 30,
