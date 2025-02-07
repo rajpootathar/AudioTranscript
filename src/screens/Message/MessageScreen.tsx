@@ -1,5 +1,5 @@
 import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, Platform, StyleSheet, Text, View} from 'react-native';
 import PlayerControls from '../../components/PlayerControls';
 import useMessageScreen from './useMessageScreen';
 
@@ -47,11 +47,11 @@ const MessageScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: '20%',
+    paddingTop: Platform.OS === 'web' ? '2%' : '20%',
     backgroundColor: 'white',
   },
   contentStyle: {
-    paddingHorizontal: '5%',
+    paddingHorizontal: Platform.OS === 'web' ? '30%' : '5%',
   },
   john: {
     alignItems: 'flex-start',

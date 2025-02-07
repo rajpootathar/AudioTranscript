@@ -9,13 +9,10 @@ import {
 } from 'react-native';
 import useTranscriptPlayer from '../hooks/usePlayer.ts';
 import messagesData from '../dataSets/MessagesData.json';
-import WebProgressBar from './WebProgressBar.jsx';
 import ProgressBar from './ProgressBar.tsx';
 
 // @ts-ignore
 const PlayerControls = ({setCurrentIndex, sortedMessages}) => {
-  const isWeb = Platform.OS === 'web';
-
   const {
     addTrack,
     play,
@@ -54,11 +51,7 @@ const PlayerControls = ({setCurrentIndex, sortedMessages}) => {
 
   return (
     <View>
-      {isWeb ? (
-        <WebProgressBar currentTime={audioPosition} duration={audioDuration} />
-      ) : (
-        <ProgressBar position={audioPosition} duration={audioDuration} />
-      )}
+      <ProgressBar position={audioPosition} duration={audioDuration} />
       <View style={styles.labelsContainer}>
         <Text style={styles.label}>{timeFormat(audioPosition)}</Text>
         <Text style={styles.label}>{timeFormat(audioDuration)}</Text>
@@ -98,8 +91,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: '5%',
-    marginBottom: '10%',
+    marginTop: Platform.OS === 'web' ? '2%' : '5%',
+    marginBottom: Platform.OS === 'web' ? '3%' : '10%',
   },
   icons: {
     width: 30,
@@ -115,7 +108,7 @@ const styles = StyleSheet.create({
   labelsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginHorizontal: '5%',
+    marginHorizontal: Platform.OS === 'web' ? '20%' : '5%',
     marginTop: 10,
   },
   label: {

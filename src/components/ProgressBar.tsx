@@ -1,36 +1,38 @@
-import React, {useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated';
+import React, {useEffect, useRef} from 'react';
+import {View, StyleSheet, Animated, Platform} from 'react-native';
 
 const ProgressBar = ({duration = 0, position = 0}) => {
-  const animatedProgress = useSharedValue(0);
+  const animatedProgress = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     if (duration > 0) {
-      animatedProgress.value = withTiming(position / duration, {duration: 0});
+      Animated.timing(animatedProgress, {
+        toValue: position / duration,
+        duration: 0,
+        useNativeDriver: false,
+      }).start();
     }
   }, [position, duration, animatedProgress]);
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    width: `${animatedProgress.value * 100}%`,
-  }));
+  const animatedStyle = {
+    width: animatedProgress.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0%', '100%'],
+    }),
+  };
 
   return (
     <View style={styles.progressBarBackground}>
       <Animated.View style={[styles.progressBar, animatedStyle]}>
-        <LinearGradient
-          colors={['#FFA500', '#FFFFFF']}
+        <View
           style={[
             StyleSheet.absoluteFill,
-            styles.linearGradient(duration, position),
+            {
+              backgroundColor: '#FFA500',
+              borderTopRightRadius: duration === position ? 0 : 10,
+              borderBottomRightRadius: duration === position ? 0 : 10,
+            },
           ]}
-          start={{x: 1, y: 1}}
-          end={{x: 1, y: 0}}
         />
       </Animated.View>
     </View>
@@ -41,16 +43,14 @@ const styles = StyleSheet.create({
   progressBarBackground: {
     height: 15,
     backgroundColor: '#eaeaea',
+    marginHorizontal: Platform.OS === 'web' ? '15%' : 0,
     overflow: 'hidden',
+    marginTop: Platform.OS === 'web' ? '3%' : 0,
   },
   progressBar: {
     height: '100%',
     borderRadius: 5,
   },
-  linearGradient: (duration: number, position: number) => ({
-    borderTopRightRadius: duration === position ? 0 : 10,
-    borderBottomRightRadius: duration === position ? 0 : 10,
-  }),
 });
 
 export default ProgressBar;
