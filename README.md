@@ -1,23 +1,50 @@
-I disabled new architecture as it was crashing the app. until track player fixes it we have to keep it disabled.
+# Audio Player with Transcript Highlighting
 
+## Overview
 
-############
+This is a React Native application that plays an audio file while displaying a transcript. The app highlights the currently spoken phrase in real-time as the audio plays.
 
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+> **Note:** I disabled new architecture as it was crashing the app due to react-ntive-track-player. until track player fixes it we have to keep it disabled.
 
+## Features
 
+- **Play:** Start playing the audio from the current position.
 
+- **Pause:** Pause the audio playback.
 
+- **Rewind:** Jump to the beginning of the current phrase (or previous phrase if already at the start).
 
-# Getting Started
+- **Forward:** Skip to the beginning of the next phrase.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+- **Highlighted Transcript:** Displays phrases in order and highlights the current phrase being spoken.
 
-## Step 1: Start the Metro Server
+## Running on Web
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+1- To test it on the web, you'll need to checkout the `rnweb` branch.
 
-To start Metro, run the following command from the _root_ of your React Native project:
+2- Ensure you are inside the project directory.
+
+3- Run the following command:
+
+```bash
+# using Npm
+
+npm run web
+
+# using Yarn
+
+yarn web
+```
+
+### Image
+
+<img src="./src/Assets/Images/WebMessageScreen.png"  />
+
+## Running on Android/iOS
+
+- First, you will need to start Metro, the JavaScript bundler that ships with React Native.
+
+- To start Metro, run the following command from the root of your React Native project:
 
 ```bash
 # using npm
@@ -27,9 +54,7 @@ npm start
 yarn start
 ```
 
-## Step 2: Start your Application
-
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+- Let Metro Bundler run in its own terminal. Open a new terminal from the root of your React Native project. Run the following command to start your Android or iOS app:
 
 ### For Android
 
@@ -51,11 +76,21 @@ npm run ios
 yarn ios
 ```
 
+### Image
+
+<img src="./src/Assets/Images/MessageScreen.png"  height="600"/>
+
+### Video
+
+<video width="500" height="500" controls>
+  <source src="./src//Assets/Audios/MessageScreen.mp4" type="video/mp4">
+</video>
+
 If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
 
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
-## Step 3: Modifying your App
+## Modifying your App
 
 Now that you have successfully run the app, let's modify it.
 
