@@ -82,9 +82,7 @@ yarn ios
 
 ### Video
 
-<video width="500" height="500" controls>
-  <source src="https://github.com/rajpootathar/AudioTranscript/raw/refs/heads/main/src/Assets/Audios/MessageScreen.mp4" type="video/mp4">
-</video>
+https://github.com/user-attachments/assets/c7d7058c-8034-4436-914c-259e61ef67d2
 
 If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
 
