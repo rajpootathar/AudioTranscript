@@ -4,7 +4,7 @@
 
 This is a React Native application that plays an audio file while displaying a transcript. The app highlights the currently spoken phrase in real-time as the audio plays.
 
->**Note:** I disabled new architecture as it was crashing the app due to react-ntive-track-player. until track player fixes it we have to keep it disabled.
+> **Note:** I disabled new architecture as it was crashing the app due to react-ntive-track-player. until track player fixes it we have to keep it disabled.
 
 ## Features
 
@@ -18,7 +18,6 @@ This is a React Native application that plays an audio file while displaying a t
 
 - **Highlighted Transcript:** Displays phrases in order and highlights the current phrase being spoken.
 
-
 ## Running on Web
 
 1- To test it on the web, you'll need to checkout the `rnweb` branch.
@@ -27,7 +26,7 @@ This is a React Native application that plays an audio file while displaying a t
 
 3- Run the following command:
 
-``` bash
+```bash
 # using Npm
 
 npm run web
@@ -36,16 +35,16 @@ npm run web
 
 yarn web
 ```
+
 ### Image
 
-![alt text](image.png)
+<img src="./src/Assets/Images/WebMessageScreen.png"  />
 
 ## Running on Android/iOS
 
 - First, you will need to start Metro, the JavaScript bundler that ships with React Native.
 
 - To start Metro, run the following command from the root of your React Native project:
-
 
 ```bash
 # using npm
@@ -58,6 +57,7 @@ yarn start
 - Let Metro Bundler run in its own terminal. Open a new terminal from the root of your React Native project. Run the following command to start your Android or iOS app:
 
 ### For Android
+
 ```bash
 # using npm
 npm run android
@@ -78,12 +78,11 @@ yarn ios
 
 ### Image
 
-![alt text](<Simulator Screenshot - iPhone 16 Pro Max - 2025-02-07 at 11.12.40.png>)
+<img src="./src/Assets/Images/MessageScreen.png"  height="600"/>
 
 ### Video
 
-<video controls src="Simulator Screen Recording - iPhone 16 Pro Max - 2025-02-07 at 11.15.44.mp4" title="Title"></video>
-
+https://github.com/user-attachments/assets/c7d7058c-8034-4436-914c-259e61ef67d2
 
 If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
 
